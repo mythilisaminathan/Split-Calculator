@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="index.css" />
+    <title>Split Fair</title>
+  </head>
+
+  <body>
+    <div class="cont">
+    <header>
+      <h2>SplitFair(+)</h2>
+      <a href="https://github.com/mythilisaminathan"><img src="github-logo.png" alt="github-logo" /></a>
+    </header>
+    <section>
+      <div class="input-container">
+        <div class="amnt"></div>
+        <input type="text" placeholder="Product Name" class="product" />
+
+        <div class="person">
+          <input type="number" placeholder="No of Members" class="Members" />
+          <button class="btn1">Add Name</button>
+        </div>
+        <div class="person1"></div>
+        <input type="number" placeholder="Bill Amount" min="1" class="count" />
+        <button class="btn2">Calculate and View Statement</button>
+      </div>
+
+      <div style="margin: auto">
+        <h4>let's Split And Share Equally!.....</h4>
+        <h4 class="text">
+          <br /><b>FairSplit</b> is the Easiest way To Split The Bill <br />No
+          Registration and no password totally free
+        </h4>
+      </div>
+    </section>
+    <!-- <div class="table"></div> -->
+    <table id="display">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>ProductName</th>
+          <th>Names</th>
+          <th>Total Amount</th>
+          <th>Per Person</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+    <script>
+      const btn = document.querySelector(".btn1");
+      const button = document.querySelector(".btn2");
+      const inputBox = document.querySelector(".inputbox");
+      let row = 1;
+
+      btn.addEventListener("click", () => {
+        const personCount = document.querySelector(".person1");
+        const members = Number(document.querySelector(".Members").value);
+
+        
+          for (let i = 0; i < members; i++) {
+            var inputBox = document.createElement("input");
+            inputBox.type = "text";
+            inputBox.className = "inputbox";
+            inputBox.placeholder = `Name ${i + 1}`;
+            personCount.appendChild(inputBox);
+          }
+        
+      });
+
+      button.addEventListener("click", () => {
+        var product = Number(document.querySelector(".count").value);
+        var members = Number(document.querySelector(".Members").value);
+
+        if (isNaN(product) || isNaN(members) || product <= 0 || members <= 0) {
+          alert("Enter Valid Data");
+        } else {
+          const result = product / members;
+          document.querySelector(".amnt").innerHTML = `<b> ${result.toFixed(
+            2
+          )} Per Person</b>`;
+        }
+      });
+
+      button.addEventListener("dblclick", () => {
+        const amount = document.querySelector(".amnt").textContent;
+        const productName = document.querySelector(".product").value;
+        var product = Number(document.querySelector(".count").value);
+
+        const display = document.getElementById("display");
+        const newRow = display.querySelector("tbody").insertRow();
+        // newRow.className="row"
+        newRow.insertCell(0).textContent = row;
+        newRow.insertCell(1).textContent = productName;
+
+        const namesCell = newRow.insertCell(2);
+        document.querySelectorAll(".inputbox").forEach((inputBox) => {
+          namesCell.textContent += inputBox.value + ", ";
+        });
+        namesCell.textContent = namesCell.textContent.slice(0, -2); // remove trailing comma
+
+        newRow.insertCell(3).textContent = product;
+        newRow.insertCell(4).textContent = amount;
+
+        row++;
+      });
+    </script>
+  </body>
+</html>
